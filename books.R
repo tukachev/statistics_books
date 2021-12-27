@@ -45,7 +45,7 @@ get_books_rating <- function(urls) {
 
 books_data <- pro_map_df(urls, get_books_rating)
 
-saveRDS(books_data, here("data", "books_data_source2.Rds"))
+saveRDS(books_data, here("data", "books_data_source.Rds"))
 
 # books_data <- readRDS(here("data", "books_data_source.Rds"))
 
