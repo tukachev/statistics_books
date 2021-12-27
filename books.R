@@ -43,10 +43,11 @@ get_books_rating <- function(urls) {
   return(temp)
 }
 
-# books_data <- pro_map_df(urls, get_books_rating)
+books_data <- pro_map_df(urls, get_books_rating)
 
-# saveRDS(books_data, here("data", "books_data_source2.Rds"))
-books_data <- readRDS(here("data", "books_data_source.Rds"))
+saveRDS(books_data, here("data", "books_data_source2.Rds"))
+
+# books_data <- readRDS(here("data", "books_data_source.Rds"))
 
 books_data <- books_data %>%
   separate(ratings,
@@ -61,7 +62,7 @@ books_data <- books_data %>%
   filter(ratings >= readers)
 
 
-# saveRDS(books_data, here("data", "books_data.Rds"))
+saveRDS(books_data, here("data", "books_data.Rds"))
 # books_data <- readRDS(here("data", "books_data.Rds"))
 
 # считаем процентильный ранг книги Искусство статистики
