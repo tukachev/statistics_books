@@ -107,7 +107,7 @@ ggplot(books_data) +
       x = 4.4,
       y = 50,
       xend = art_of_stat_rating,
-      yend = 41
+      yend = 42
     ),
     arrow = arrow(length = unit(.02, "npc")),
     size = .15,
