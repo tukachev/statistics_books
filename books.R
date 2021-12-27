@@ -145,6 +145,7 @@ ggplot(books_data) +
     panel.background = element_blank(),
     plot.title.position = "plot",
     plot.caption.position = "plot",
+    # warning: Vectorized input to `element_text()` is not officially supported
     plot.caption = element_text(
       color = c("gray", "gray50"),
       size = c(12, 13),
