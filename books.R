@@ -12,12 +12,14 @@ font_add_google("Montserrat Alternates", family = "Montserrat")
 showtext_auto()
 
 book_title <- "The Art of Statistics: How to Learn from Data"
-n_total <- 200
+n_total <- 200 # берем только 200 страниц поисковой выдачи сайта
+# URL-адреса
 urls <- glue(
   "https://www.goodreads.com/search?page={1:n_total}&q=statistics&search%5Bfield%5D=title"
 )
-readers <- 10
+readers <- 10 #не менее 10 читателей книги
 
+# функция для парсинга страниц поисковой выдачи сайта
 get_books_rating <- function(urls) {
   Sys.sleep(sample(10:17, 1)) #случайная задержка в секундах перед новым запросом
   html <- read_html(urls) %>% minimal_html()
@@ -45,10 +47,12 @@ get_books_rating <- function(urls) {
 
 books_data <- pro_map_df(urls, get_books_rating)
 
+# сохраняем исходник
 saveRDS(books_data, here("data", "books_data_source.Rds"))
 
 # books_data <- readRDS(here("data", "books_data_source.Rds"))
 
+# очистка и преобразование
 books_data <- books_data %>%
   separate(ratings,
            c("avg_rating", "ratings", "published", "edition"),
@@ -61,7 +65,7 @@ books_data <- books_data %>%
   unique() %>%
   filter(ratings >= readers)
 
-
+# сохраняем очищенный датасет для графика
 saveRDS(books_data, here("data", "books_data.Rds"))
 # books_data <- readRDS(here("data", "books_data.Rds"))
 
