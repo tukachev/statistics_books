@@ -1,4 +1,11 @@
 # The Art of Statistics: How to Learn from Data
+# by David Spiegelhalter 
+# 
+# Русское издание книги:
+# Искусство статистики
+# Как находить ответы в данных
+# Дэвид Шпигельхалтер
+# https://www.mann-ivanov-ferber.ru/books/iskusstvo-statistiki/
 
 library(tidyverse)
 library(purrrgress)
