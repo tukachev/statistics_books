@@ -81,7 +81,7 @@ at_count <- sum(books_data$avg_rating == art_of_stat_rating)
 # at_count
 PR <-
   round((below_count + 0.5 * at_count) / nrow(books_data) * 100, 0)
-PR
+PR #процентильный ранг
 
 quantile(books_data$avg_rating, seq(0, 1, 0.01))
 
