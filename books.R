@@ -65,6 +65,9 @@ books_data <- books_data %>%
 saveRDS(books_data, here("data", "books_data.Rds"))
 # books_data <- readRDS(here("data", "books_data.Rds"))
 
+# write csv
+write_csv2(books_data, here("data", "book_data.csv"))
+
 # считаем процентильный ранг книги Искусство статистики
 art_of_stat_rating <-
   books_data$avg_rating[books_data$bookTitle == book_title]
