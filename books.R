@@ -1,10 +1,12 @@
 # The Art of Statistics: How to Learn from Data
 # by David Spiegelhalter 
 # 
-# Русское издание книги:
-# Искусство статистики
-# Как находить ответы в данных
-# Дэвид Шпигельхалтер
+# Русское издание книги: Дэвид Шпигельхалтер
+# Искусство статистики: как находить ответы в данных
+#  
+# В магазине Бук24:
+# https://book24.ru/~ayNfc
+# На сайте издательства:
 # https://www.mann-ivanov-ferber.ru/books/iskusstvo-statistiki/
 
 library(tidyverse)
@@ -69,7 +71,7 @@ books_data <- books_data %>%
             parse_number) %>%
   mutate(edition = coalesce(edition, published)) %>%
   mutate(published = ifelse(published < 1000, NA, published)) %>%
-  unique() %>%
+  distinct() %>%
   filter(ratings >= readers)
 
 # сохраняем очищенный датасет для графика
@@ -103,7 +105,10 @@ ggplot(books_data) +
                  binwidth = .1,
                  color = "#8c510a",
                  fill = "#f6e8c3") +
-  scale_y_continuous(limits = c(0, 85), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0, 90), 
+                     breaks = seq(0,85, 10),
+                     labels = seq(0,85, 10), expand = c(0, 0)) +
+  scale_x_continuous(breaks = seq(2.5,5,0.5)) +
   annotate(
     "text",
     x = 4.75,
@@ -111,11 +116,21 @@ ggplot(books_data) +
     family = "Montserrat",
     size = 4,
     color = "gray50",
-    lineheight = .8,
+    lineheight = .9,
     label = glue(
       "Средний рейтинг книги\n\"Искусство статистики\"\n{art_of_stat_rating} ({PR}-й процентиль)"
     )
   ) +
+  annotate(
+    "text", 
+    x = 2.45,
+    y = 80,
+    family = "Montserrat",
+    size = 6.5,
+    color = "gray50",
+    # lineheight = .8,
+    label = "Книг"
+    ) +
   geom_curve(
     aes(
       x = 4.4,
@@ -137,13 +152,13 @@ ggplot(books_data) +
   ) +
   labs(
     x = "Средняя оценка книги",
-    y = "Количество книг",
+    # y = "Количество книг",
     title = "Статистический анализ книг по статистике",
     subtitle = glue(
       "Распределение среднего рейтинг-балла* для {books_count} книг со словом Statistics в названии"
     ),
     caption = c(
-      glue("* на основе не менее {readers} оценок читателей книги"),
+      glue("* на основе не менее {readers} оценок от читателей книги"),
       "\nИсточник данных: Goodreads\nВизуализация: Юрий Тукачев, 2021"
     )
   ) +
@@ -151,6 +166,7 @@ ggplot(books_data) +
   theme(
     panel.grid = element_blank(),
     panel.border = element_blank(),
+    axis.title.y = element_blank(),
     text = element_text(
       family = "Montserrat",
       color = "#53565A",
@@ -168,7 +184,7 @@ ggplot(books_data) +
     plot.margin = margin(25, 25, 10, 25),
     plot.subtitle = element_text(
       hjust = 0,
-      size = rel(0.8),
+      size = rel(0.85),
       family = "Montserrat"
     ),
     plot.title = element_text(
