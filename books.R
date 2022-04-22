@@ -17,7 +17,9 @@ library(showtext)
 library(here)
 library(ragg)
 
-font_add_google("Montserrat Alternates", family = "Montserrat")
+# font_add_google("Montserrat Alternates", family = "Montserrat")
+font_add_google("Roboto Condensed", family = "Roboto")
+
 showtext_auto()
 
 book_title <- "The Art of Statistics: How to Learn from Data"
@@ -30,7 +32,7 @@ readers <- 10 #не менее 10 читателей книги
 
 # функция для парсинга страниц поисковой выдачи сайта
 get_books_rating <- function(urls) {
-  Sys.sleep(sample(10:17, 1)) #случайная задержка в секундах перед новым запросом
+  Sys.sleep(sample(10:36, 1)) #случайная задержка в секундах перед новым запросом
   html <- read_html(urls) %>% minimal_html()
   ratings <- html %>%
     html_elements(".uitext") %>%
@@ -105,7 +107,7 @@ ggplot(books_data) +
                  binwidth = .1,
                  color = "#8c510a",
                  fill = "#f6e8c3") +
-  scale_y_continuous(limits = c(0, 90), 
+  scale_y_continuous(limits = c(0, 85), 
                      breaks = seq(0,85, 10),
                      labels = seq(0,85, 10), expand = c(0, 0)) +
   scale_x_continuous(breaks = seq(2.5,5,0.5)) +
@@ -113,30 +115,20 @@ ggplot(books_data) +
     "text",
     x = 4.75,
     y = 51,
-    family = "Montserrat",
-    size = 4,
+    family = "Roboto",
+    size = 4.5,
     color = "gray50",
     lineheight = .9,
     label = glue(
       "Средний рейтинг книги\n\"Искусство статистики\"\n{art_of_stat_rating} ({PR}-й процентиль)"
     )
   ) +
-  annotate(
-    "text", 
-    x = 2.45,
-    y = 80,
-    family = "Montserrat",
-    size = 6.5,
-    color = "gray50",
-    # lineheight = .8,
-    label = "Книг"
-    ) +
   geom_curve(
     aes(
-      x = 4.4,
-      y = 50,
+      x = 4.42,
+      y = 51,
       xend = art_of_stat_rating,
-      yend = 42
+      yend = 45
     ),
     arrow = arrow(length = unit(.02, "npc")),
     size = .15,
@@ -152,26 +144,28 @@ ggplot(books_data) +
   ) +
   labs(
     x = "Средняя оценка книги",
-    # y = "Количество книг",
-    title = "Статистический анализ книг по статистике",
-    subtitle = glue(
-      "Распределение среднего рейтинг-балла* для {books_count} книг со словом Statistics в названии"
+    y = "Количество книг",
+    title = glue(
+      "Распределение среднего рейтинг-балла*\nдля {books_count} книг со словом Statistics в названии"),
+    subtitle = glue("Средняя оценка {PR}% книг ниже или такая же как у книги \"Искусство статистики\""
     ),
     caption = c(
-      glue("* на основе не менее {readers} оценок от читателей книги"),
-      "\nИсточник данных: Goodreads\nВизуализация: Юрий Тукачев, 2021"
+      glue("* на основе не менее {readers} оценок книги читателями"),
+      "\nИсточник данных: Goodreads\nВизуализация: Юрий Тукачев, 2022"
     )
   ) +
-  theme_light(base_size = 18, base_family = "Montserrat") +
+  theme_light(base_size = 18, base_family = "Roboto") +
   theme(
     panel.grid = element_blank(),
     panel.border = element_blank(),
-    axis.title.y = element_blank(),
+    axis.title = element_text(size = 16),
+    # axis.title.y = element_blank(),
     text = element_text(
-      family = "Montserrat",
+      family = "Roboto",
       color = "#53565A",
       size = 18
     ),
+    # axis.text.y = element_text(vjust = -0.25),
     panel.background = element_blank(),
     plot.title.position = "plot",
     plot.caption.position = "plot",
@@ -185,11 +179,11 @@ ggplot(books_data) +
     plot.subtitle = element_text(
       hjust = 0,
       size = rel(0.85),
-      family = "Montserrat"
+      family = "Roboto"
     ),
     plot.title = element_text(
       size = rel(1.3),
-      family = "Montserrat",
+      family = "Roboto",
       face = "bold",
       color = "gray20"
     )
