@@ -18,7 +18,9 @@ library(here)
 library(ragg)
 
 # font_add_google("Montserrat Alternates", family = "Montserrat")
-font_add_google("Roboto Condensed", family = "Roboto")
+# font_add_google("Roboto Condensed", family = "Roboto")
+font_add_google("Istok Web", family = "Istok Web")
+font <- "Istok Web"
 
 showtext_auto()
 
@@ -111,11 +113,13 @@ ggplot(books_data) +
                      breaks = seq(0,85, 10),
                      labels = seq(0,85, 10), expand = c(0, 0)) +
   scale_x_continuous(breaks = seq(2.5,5,0.5)) +
+  geom_vline(xintercept = art_of_stat_rating,
+             colour = "gray80") +
   annotate(
     "text",
     x = 4.75,
-    y = 51,
-    family = "Roboto",
+    y = 50,
+    family = font,
     size = 4.5,
     color = "gray50",
     lineheight = .9,
@@ -125,8 +129,8 @@ ggplot(books_data) +
   ) +
   geom_curve(
     aes(
-      x = 4.42,
-      y = 51,
+      x = 4.40,
+      y = 50,
       xend = art_of_stat_rating,
       yend = 45
     ),
@@ -154,14 +158,14 @@ ggplot(books_data) +
       "\nИсточник данных: Goodreads\nВизуализация: Юрий Тукачев, 2022"
     )
   ) +
-  theme_light(base_size = 18, base_family = "Roboto") +
+  theme_light(base_size = 18, base_family = font) +
   theme(
     panel.grid = element_blank(),
     panel.border = element_blank(),
     axis.title = element_text(size = 16),
     # axis.title.y = element_blank(),
     text = element_text(
-      family = "Roboto",
+      family = font,
       color = "#53565A",
       size = 18
     ),
@@ -179,11 +183,11 @@ ggplot(books_data) +
     plot.subtitle = element_text(
       hjust = 0,
       size = rel(0.85),
-      family = "Roboto"
+      family = font
     ),
     plot.title = element_text(
       size = rel(1.3),
-      family = "Roboto",
+      family = font,
       face = "bold",
       color = "gray20"
     )
