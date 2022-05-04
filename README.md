@@ -6,4 +6,10 @@
 
 The book "The Art of statistics" is compared with other books on the same topic. Data from Goodreads.
 
+**Классическая гистограмма**
+
 ![](images/books_ratings.png)
+
+**График-улей**
+
+![](images/books_ratings2.png)
