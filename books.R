@@ -105,10 +105,14 @@ img <- png::readPNG(here("cover.png"))
 book_cover <- grid::rasterGrob(img, interpolate = T)
 
 ggplot(books_data) +
+  # geom_histogram(aes(avg_rating),
+  #                binwidth = .1,
+  #                color = "#8c510a",
+  #                fill = "#f6e8c3") +
   geom_histogram(aes(avg_rating),
-                 binwidth = .1,
-                 color = "#8c510a",
-                 fill = "#f6e8c3") +
+                 binwidth = .1, alpha = 0.5,
+                 color = "#5773CC",
+                 fill = "#5773CC") +
   scale_y_continuous(limits = c(0, 85), 
                      breaks = seq(0,85, 10),
                      labels = seq(0,85, 10), expand = c(0, 0)) +
@@ -158,35 +162,33 @@ ggplot(books_data) +
       "\nИсточник данных: Goodreads\nВизуализация: Юрий Тукачев, 2022"
     )
   ) +
-  theme_light(base_size = 20, base_family = font) +
   theme(
     panel.grid = element_blank(),
     panel.border = element_blank(),
     axis.title = element_text(size = 18),
-    # axis.title.y = element_blank(),
     text = element_text(
       family = font,
       color = "#53565A",
       size = 18
     ),
-    # axis.text.y = element_text(vjust = -0.25),
     panel.background = element_blank(),
     plot.title.position = "plot",
     plot.caption.position = "plot",
     # warning: Vectorized input to `element_text()` is not officially supported
     plot.caption = element_text(
       color = c("gray", "gray50"),
-      size = c(12, 13),
+      size = c(13, 14),
       hjust = c(0, 1)
     ),
     plot.margin = margin(25, 25, 10, 25),
     plot.subtitle = element_text(
       hjust = 0,
-      # size = rel(0.95),
+      size = rel(0.95),
       family = font
     ),
     plot.title = element_text(
       size = rel(1.3),
+      lineheight = 0.7,
       family = font,
       face = "bold",
       color = "gray20"
@@ -206,22 +208,24 @@ ggsave(
 library(ggbeeswarm)
 library(ggtext)
 
+color_below <- "#5773CC" 
+color_at <- "#FFB900"
+color_book <- "#800000"
+
 books_data2 <- books_data %>% 
-  mutate(col = ifelse(avg_rating <= 4.18, "#dfc27d", "gray90"),
-         col = ifelse(avg_rating == 4.18, "#80cdc1", col))
+  mutate(col = ifelse(avg_rating <= 4.18, color_below, "gray80"),
+         col = ifelse(avg_rating == 4.18, color_at, col))
 
-books_data2$col[books_data2$bookTitle == book_title] <- "brown"
+books_data2$col[books_data2$bookTitle == book_title] <- color_book
 
-
-
-subtitle <- glue("Средняя оценка {PR}% книг <span style='color:#dfc27d;'>ниже</span> 
-                 или <span style='color:#80cdc1;'>такая же</span> как 
-                 у <span style='color:brown;'>книги \"Искусство статистики\"</span>")
+subtitle <- glue("Средняя оценка **{PR}%** книг <b style='color:{color_below};'>**ниже**</b> 
+                 или <b style='color:{color_at};'>**такая же**</b> как 
+                 у <b style='color:{color_book};'>**книги** \"Искусство статистики\"</b>")
 
 set.seed(666)
 ggplot(books_data2, aes(x = "", y = avg_rating)) +
-  geom_hline(yintercept = 4.18, color = "gray80") +
-  geom_beeswarm(size = 2.3, cex = 2, 
+  geom_hline(yintercept = 4.18, color = "gray80", size = 0.5) +
+  geom_beeswarm(size = 2.8, cex = 2, alpha = 0.6, 
                 colour = books_data2$col,
                 priority = "random") +
   scale_y_continuous(breaks = c(seq(2.5,4,0.5), 4.18, 4.5, 5)) +
@@ -229,15 +233,13 @@ ggplot(books_data2, aes(x = "", y = avg_rating)) +
   labs(
     y = "Средняя оценка книги",
     title = glue(
-      "Распределение среднего рейтинг-балла*\nдля {books_count} книг со 
-      словом Statistics в названии"),
+      "Распределение среднего рейтинг-балла*\nдля {books_count} книг со словом Statistics в названии"),
     subtitle = subtitle,
     caption = c(
       glue("* на основе не менее {readers} оценок каждой книги читателями"),
       "\nИсточник данных: Goodreads\nВизуализация: Юрий Тукачев, 2022"
     )
   ) +
-  theme_light(base_size = 20, base_family = font) +
   theme(
     panel.background = element_blank(),
     axis.title.y = element_blank(),
@@ -245,32 +247,26 @@ ggplot(books_data2, aes(x = "", y = avg_rating)) +
     panel.border = element_blank(),
     panel.grid = element_blank(),
     axis.title = element_text(size = 18),
-    # axis.title.y = element_blank(),
     text = element_text(
       family = font,
       color = "#53565A",
       size = 18
     ),
-    # axis.text.y = element_text(vjust = -0.25),
     plot.title.position = "plot",
     plot.caption.position = "plot",
     # warning: Vectorized input to `element_text()` is not officially supported
     plot.caption = element_text(
       color = c("gray", "gray50"),
-      size = c(12, 13),
+      size = c(13, 14),
       hjust = c(0, 1)
     ),
     plot.margin = margin(25, 25, 10, 25),
-    plot.subtitle = element_markdown(hjust = 0,
-                                     # size = rel(0.95), 
+    plot.subtitle = element_markdown(hjust = 0, 
+                                     size = rel(0.95),
                                      family = font),
-    # plot.subtitle = element_text(
-    # hjust = 0,
-    # size = rel(0.85),
-    # family = font
-    # ),
     plot.title = element_text(
-      size = rel(1.3),
+      size = rel(1.3), 
+      lineheight = 0.7,
       family = font,
       face = "bold",
       color = "gray20"
